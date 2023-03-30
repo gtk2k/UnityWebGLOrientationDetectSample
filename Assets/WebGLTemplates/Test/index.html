@@ -133,6 +133,9 @@
       function watchScreen() {
         requestAnimationFrame(watchScreen);
         if(sWidth !== window.innerWidth || sHeight != window.innerHeight){
+          if(window.onOrientationChange) {
+            window.onOrientationChange(window.orientation);
+          }
           sWidth = window.innerWidth;
           sHeight = window.innerHeight;
           canvas.style.width = sWidth + 'px';

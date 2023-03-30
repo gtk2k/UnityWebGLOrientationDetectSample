@@ -23,7 +23,7 @@ public class Test : MonoBehaviour
                 fullScreenSupportLabel.text = "FullScreen is not support";
                 if(fullScreenButton != null)
                 {
-                    fullScreenButton.enabled = false;
+                    fullScreenButton.gameObject.SetActive(false);
                 }
                 return;
             }

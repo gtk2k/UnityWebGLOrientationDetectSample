@@ -7,11 +7,12 @@ var OrientationDetectorLib = {
         if(!('requestFullscreen' in document.documentElement)) {
             if (JS_OrientationDetectorLib_Context.eventHandler) {
                 Module.dynCall_vi(JS_OrientationDetectorLib_Context.eventHandler, -999);
+                Module.dynCall_vi(JS_OrientationDetectorLib_Context.eventHandler, window.orientation);
             }
         }
-        window.addEventListener('orientationchange', function () {
-            Module.dynCall_vi(JS_OrientationDetectorLib_Context.eventHandler, window.orientaion || window.screen.orientation.angle);
-        });
+        window.onOrientationChange = function(val) {
+            Module.dynCall_vi(JS_OrientationDetectorLib_Context.eventHandler, val);
+        }
     },
 
     JS_OrientationDetectorLib_GetOrientation: function () {
