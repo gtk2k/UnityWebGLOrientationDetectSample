@@ -98,10 +98,8 @@
 
         canvas.style.width = window.innerWidth + 'px';
         canvas.style.height = window.innerHeight + 'px';
-        window.addEventListener('orientationchange', evt => {
-          canvas.style.width = window.innerWidth + 'px';
-          canvas.style.height = window.innerHeight + 'px';
-        });
+
+        watchScreen();
       } else {
         // Desktop style: Render the game canvas in a window that can be maximized to fullscreen:
 
@@ -129,6 +127,18 @@
         });
       };
       document.body.appendChild(script);
+
+      var sWidth = window.innerWidth;
+      var sHeight = window.innerHeight;
+      function watchScreen() {
+        requestAnimationFrame(watchScreen);
+        if(sWidth !== window.innerWidth || sHeight != window.innerHeight){
+          sWidth = window.innerWidth;
+          sHeight = window.innerHeight;
+          canvas.style.width = sWidth + 'px';
+          canvas.style.height = sHeight + 'px';
+        }
+      }
     </script>
   </body>
 </html>
