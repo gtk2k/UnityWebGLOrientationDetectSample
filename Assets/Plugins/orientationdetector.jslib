@@ -4,26 +4,21 @@ var OrientationDetectorLib = {
     JS_OrientationDetectorLib_Init: function (eventHandler) {
         JS_OrientationDetectorLib_Context.eventHandler = eventHandler;
         JS_OrientationDetectorLib_Context.cnv = document.querySelector('canvas');
-        if (window.screen && screen.orientation) {
-            window.addEventListener('orientationchange', function () {
-                window.onresize = function () {
-                    window.onresize = null;
-                    if (JS_OrientationDetectorLib_Context.eventHandler) {
-                        Module.dynCall_vi(JS_OrientationDetectorLib_Context.eventHandler, window.screen.orientation.angle);
-                    }
-                };
-            });
-            return 0;
-        } else {
-            return -1;
+        if(!('requestFullscreen' in document.documentElement)) {
+            if (JS_OrientationDetectorLib_Context.eventHandler) {
+                Module.dynCall_vi(JS_OrientationDetectorLib_Context.eventHandler, -999);
+            }
         }
+        window.addEventListener('orientationchange', function () {
+            Module.dynCall_vi(JS_OrientationDetectorLib_Context.eventHandler, window.orientaion || window.screen.orientation.angle);
+        });
     },
 
     JS_OrientationDetectorLib_GetOrientation: function () {
         if (window.screen && screen.orientation) {
             return window.screen.angle;
         } else {
-            return -1;
+            return window.orientation;
         }
     },
 

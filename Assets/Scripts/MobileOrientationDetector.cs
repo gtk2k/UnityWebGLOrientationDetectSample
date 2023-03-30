@@ -8,6 +8,7 @@ public class MobileOrientationDetector : MonoBehaviour
 {
     public delegate void dlgOrientationChange(int angle);
     public static event dlgOrientationChange OnOrientationChange;
+    private static bool isFullScreenSupport;
     
     [DllImport("__Internal")]
     private static extern int JS_OrientationDetectorLib_Init(Action<int> eventHandler);
@@ -31,11 +32,17 @@ public class MobileOrientationDetector : MonoBehaviour
     [MonoPInvokeCallback(typeof(Action<int>))]
     private static void onOrientationChange (int angle)
     {
+        if(angle == -999)
+        {
+            isFullScreenSupport = false;
+        }
         OnOrientationChange.Invoke(angle);
     }
 
     public static void Init()
     {
+        isFullScreenSupport = true;
+
         var res = JS_OrientationDetectorLib_Init(onOrientationChange);
         if (res == -1)
         {
@@ -51,16 +58,19 @@ public class MobileOrientationDetector : MonoBehaviour
 
     public static void FullScreen()
     {
+        if (!isFullScreenSupport) return;
         JS_OrientationDetectorLib_FullScreen();
     }
 
     public static void ExitFullScreen()
     {
+        if (!isFullScreenSupport) return;
         JS_OrientationDetectorLib_ExitFullScreen();
     }
 
     public static void ScreenLock()
     {
+        if (!isFullScreenSupport) return;
         JS_OrientationDetectorLib_Lock();
     }
 

@@ -1,11 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Test : MonoBehaviour
 {
-    public Text txt;
+    [SerializeField] private TextMeshProUGUI fullScreenSupportLabel;
+    [SerializeField] private TextMeshProUGUI orientationLabel;
+
     public Button fullScreenButton;
     public Button exitFullScreenButton;
     public Button lockButton;
@@ -15,17 +18,26 @@ public class Test : MonoBehaviour
     {
         MobileOrientationDetector.OnOrientationChange += (angle) =>
         {
+            if(angle == -999)
+            {
+                fullScreenSupportLabel.text = "FullScreen is not support";
+                if(fullScreenButton != null)
+                {
+                    fullScreenButton.enabled = false;
+                }
+                return;
+            }
             Debug.Log($"Angle: {angle}");
-            txt.text = $"Angle: {angle}";
+            orientationLabel.text = $"Angle: {angle}";
         };
-        Debug.Log("A");
 
         fullScreenButton.onClick.AddListener(() =>
         {
+
             MobileOrientationDetector.FullScreen();
         });
-        Debug.Log("C");
-
+        /*
+        
         exitFullScreenButton.onClick.AddListener(() =>
         {
             MobileOrientationDetector.ExitFullScreen();
@@ -42,10 +54,9 @@ public class Test : MonoBehaviour
         {
             MobileOrientationDetector.ScreenUnlock();
         });
-        Debug.Log("F");
+        Debug.Log("F");*/
 
         MobileOrientationDetector.Init();
-        Debug.Log("G");
 
     }
 }
